@@ -1,4 +1,4 @@
-﻿
+
 CREATE or REPLACE FUNCTION getaliases(name text)
 RETURNS text[] AS $$
 DECLARE
@@ -11,30 +11,61 @@ DECLARE
     --name text := 'Norman Brenden';
 
 BEGIN  
-    SELECT * INTO donor from donordata_donor where full_name = name;
+    SELECT * INTO donor FROM donordata_donor WHERE full_name = name;
     
-    if found then
+    IF FOUND THEN
 
-        alias_names := array(SELECT alias from donordata_aliasmap where parent_id = donor.id);
+        alias_names := array(SELECT alias FROM donordata_aliasmap WHERE parent_id = donor.id);
         alias_names := alias_names || donor.full_name::text;
     	return alias_names;
 	
     else
         
-        SELECT parent_id INTO donorid from donordata_aliasmap where alias = name;
+        SELECT parent_id INTO donorid FROM donordata_aliasmap WHERE alias = name;
         
-        if found then
+        IF FOUND THEN
     	    alias_names := array(
-    	        SELECT alias from donordata_aliasmap where parent_id = donorid
+    	        SELECT alias FROM donordata_aliasmap WHERE parent_id = donorid
     	    );
-    	    SELECT * INTO donor from donordata_donor where id = donorid;
+    	    SELECT * INTO donor FROM donordata_donor WHERE id = donorid;
     	    alias_names := alias_names || donor.full_name::text;
     	    return alias_names;
 
-    	end if;
+    	END IF;
      
 	
-    end if;
+    END IF;
+        
+END;  
+$$ LANGUAGE plpgsql;  
+
+
+CREATE or REPLACE FUNCTION fetch_canonical_name(name text)
+RETURNS text AS $$
+DECLARE
+    donor_name text := '';
+    donorid integer;
+    --name text := 'Kathy Jones-McCann';
+    --name text := 'Terrance J Aarnio';
+    --name text := 'Sylvi C. Tuttle';
+    --name text := 'Norman Brenden';
+
+BEGIN  
+    SELECT full_name INTO donor_name FROM donordata_donor WHERE full_name = name;
+    
+    IF FOUND THEN
+        return name;
+    
+    else
+        SELECT parent_id INTO donorid FROM donordata_aliasmap WHERE alias = name;
+        IF FOUND THEN
+            SELECT full_name INTO donor_name FROM donordata_donor WHERE id = donorid;
+            return donor_name;
+
+        END IF;
+     
+    
+    END IF;
         
 END;  
 $$ LANGUAGE plpgsql;  

@@ -10,17 +10,26 @@ SET client_min_messages = warning;
 
 SET search_path = public, pg_catalog;
 
+ALTER TABLE ONLY public.donordata_patronagecategory_donors DROP CONSTRAINT donordata_patronagecate_donor_id_91fcd2a0_fk_donordata_donor_id;
 ALTER TABLE ONLY public.donordata_aliasmap DROP CONSTRAINT donordata_aliasmap_parent_id_df20e611_fk_donordata_donor_id;
+ALTER TABLE ONLY public.donordata_patronagecategory_donors DROP CONSTRAINT d5d22555a2cddbd1af24084d843bee9f;
+DROP INDEX public.donordata_patronagecategory_donors_9ce2ed5c;
+DROP INDEX public.donordata_patronagecategory_donors_029df19e;
 DROP INDEX public.donordata_donor_donor_ident_4b419441_like;
 DROP INDEX public.donordata_aliasmap_6be37982;
 ALTER TABLE ONLY public.donordata_patronagecategory DROP CONSTRAINT donordata_patronagecategory_pkey;
+ALTER TABLE ONLY public.donordata_patronagecategory_donors DROP CONSTRAINT donordata_patronagecategory_donors_pkey;
+ALTER TABLE ONLY public.donordata_patronagecategory_donors DROP CONSTRAINT donordata_patronagecategory__patronagecategory_id_89295375_uniq;
 ALTER TABLE ONLY public.donordata_donor DROP CONSTRAINT donordata_donor_pkey;
 ALTER TABLE ONLY public.donordata_donor DROP CONSTRAINT donordata_donor_donor_ident_key;
 ALTER TABLE ONLY public.donordata_aliasmap DROP CONSTRAINT donordata_aliasmap_pkey;
+ALTER TABLE public.donordata_patronagecategory_donors ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.donordata_patronagecategory ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.donordata_donor ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.donordata_aliasmap ALTER COLUMN id DROP DEFAULT;
 DROP SEQUENCE public.donordata_patronagecategory_id_seq;
+DROP SEQUENCE public.donordata_patronagecategory_donors_id_seq;
+DROP TABLE public.donordata_patronagecategory_donors;
 DROP TABLE public.donordata_patronagecategory;
 DROP SEQUENCE public.donordata_donor_id_seq;
 DROP TABLE public.donordata_donor;
@@ -127,6 +136,43 @@ CREATE TABLE donordata_patronagecategory (
 
 
 --
+-- Name: donordata_patronagecategory_donors; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE donordata_patronagecategory_donors (
+    id integer NOT NULL,
+    patronagecategory_id integer NOT NULL,
+    donor_id integer NOT NULL
+);
+
+
+--
+-- Name: donordata_patronagecategory_donors_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE donordata_patronagecategory_donors_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: donordata_patronagecategory_donors_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE donordata_patronagecategory_donors_id_seq OWNED BY donordata_patronagecategory_donors.id;
+
+
+--
+-- Name: donordata_patronagecategory_donors_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('donordata_patronagecategory_donors_id_seq', 417, true);
+
+
+--
 -- Name: donordata_patronagecategory_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -171,6 +217,13 @@ ALTER TABLE ONLY donordata_donor ALTER COLUMN id SET DEFAULT nextval('donordata_
 --
 
 ALTER TABLE ONLY donordata_patronagecategory ALTER COLUMN id SET DEFAULT nextval('donordata_patronagecategory_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY donordata_patronagecategory_donors ALTER COLUMN id SET DEFAULT nextval('donordata_patronagecategory_donors_id_seq'::regclass);
 
 
 --
@@ -1837,6 +1890,431 @@ COPY donordata_patronagecategory (id, category) FROM stdin;
 
 
 --
+-- Data for Name: donordata_patronagecategory_donors; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY donordata_patronagecategory_donors (id, patronagecategory_id, donor_id) FROM stdin;
+1	2	6
+2	8	6
+3	10	6
+4	9	7
+5	8	9
+6	6	10
+7	1	12
+8	6	12
+9	7	12
+10	8	13
+11	7	14
+12	7	15
+13	4	16
+14	7	17
+15	2	18
+16	3	18
+17	4	18
+18	7	18
+19	11	18
+20	7	19
+21	4	21
+22	5	21
+23	2	24
+24	3	24
+25	7	27
+26	8	28
+27	9	29
+28	9	30
+29	9	33
+30	4	37
+31	7	38
+32	6	40
+33	7	40
+34	3	42
+35	7	43
+36	2	48
+37	3	52
+38	8	55
+39	9	56
+40	8	58
+41	2	63
+42	6	63
+43	2	65
+44	7	65
+45	8	67
+46	3	74
+47	6	76
+48	5	77
+49	7	77
+50	2	78
+51	6	78
+52	7	78
+53	8	78
+54	9	79
+55	10	79
+56	6	81
+57	3	82
+58	3	83
+59	6	83
+60	7	83
+61	2	85
+62	3	87
+63	2	88
+64	10	88
+65	6	89
+66	3	90
+67	7	91
+68	9	91
+69	4	93
+70	5	95
+71	2	96
+72	10	96
+73	6	97
+74	2	100
+75	10	100
+76	3	102
+77	2	104
+78	4	104
+79	7	104
+80	8	104
+81	6	107
+82	10	111
+83	2	113
+84	6	113
+85	7	113
+86	8	113
+87	6	114
+88	2	116
+89	3	116
+90	2	118
+91	6	118
+92	7	118
+93	8	118
+94	6	122
+95	5	125
+96	11	125
+97	6	127
+98	6	128
+99	9	132
+100	1	133
+101	9	133
+102	4	135
+103	5	137
+104	3	139
+105	11	139
+106	5	141
+107	6	143
+108	7	145
+109	3	146
+110	11	146
+111	6	148
+112	2	150
+113	4	150
+114	5	150
+115	6	150
+116	8	150
+117	6	153
+118	8	154
+119	7	155
+120	2	159
+121	6	161
+122	3	162
+123	3	163
+124	4	164
+125	2	165
+126	4	165
+127	8	165
+128	4	168
+129	1	169
+130	5	170
+131	3	171
+132	8	174
+133	10	174
+134	2	175
+135	2	176
+136	3	176
+137	5	176
+138	6	176
+139	8	176
+140	7	178
+141	1	181
+142	2	181
+143	6	181
+144	7	181
+145	9	181
+146	1	185
+147	2	192
+148	10	192
+149	7	193
+150	1	194
+151	2	194
+152	4	194
+153	1	197
+154	2	200
+155	8	206
+156	10	209
+157	7	210
+158	2	213
+159	6	213
+160	10	216
+161	6	218
+162	6	223
+163	2	225
+164	4	225
+165	8	225
+166	2	226
+167	4	226
+168	6	227
+169	4	228
+170	5	229
+171	9	230
+172	5	234
+173	7	236
+174	5	236
+175	2	237
+176	6	237
+177	4	238
+178	6	238
+179	3	239
+180	9	240
+181	1	241
+182	9	244
+183	2	247
+184	3	249
+185	8	250
+186	4	253
+187	8	253
+188	8	254
+189	3	256
+190	5	256
+191	10	256
+192	6	257
+193	2	258
+194	6	258
+195	6	261
+196	8	262
+197	12	262
+198	2	264
+199	3	264
+200	4	264
+201	7	264
+202	9	264
+203	10	265
+204	8	267
+205	12	267
+206	2	268
+207	3	268
+208	4	268
+209	6	268
+210	7	268
+211	9	268
+212	2	269
+213	4	270
+214	7	272
+215	9	272
+216	1	273
+217	2	273
+218	5	273
+219	10	273
+220	10	275
+221	3	276
+222	2	277
+223	7	278
+224	2	279
+225	6	283
+226	5	284
+227	6	286
+228	8	286
+229	5	289
+230	6	290
+231	8	291
+232	10	292
+233	2	293
+234	3	293
+235	4	293
+236	6	293
+237	7	293
+238	7	294
+239	9	294
+240	8	295
+241	4	296
+242	7	296
+243	3	297
+244	5	297
+245	8	297
+246	2	298
+247	7	298
+248	9	298
+249	9	299
+250	9	300
+251	1	301
+252	4	301
+253	2	302
+254	3	302
+255	4	302
+256	6	302
+257	6	304
+258	10	305
+259	3	306
+260	10	306
+261	2	307
+262	3	307
+263	4	307
+264	6	307
+265	8	307
+266	6	308
+267	6	311
+268	9	312
+269	5	315
+270	6	316
+271	1	318
+272	2	318
+273	4	318
+274	5	318
+275	7	318
+276	8	318
+277	3	319
+278	5	322
+279	2	323
+280	8	323
+281	9	324
+282	4	326
+283	8	327
+284	8	329
+285	3	331
+286	6	333
+287	8	333
+288	2	335
+289	6	336
+290	3	341
+291	4	341
+292	10	343
+293	1	346
+294	10	346
+295	1	348
+296	2	348
+297	3	348
+298	2	349
+299	3	349
+300	6	354
+301	7	356
+302	9	363
+303	8	365
+304	2	367
+305	4	367
+306	8	367
+307	6	371
+308	2	377
+309	3	377
+310	5	383
+311	7	385
+312	6	387
+313	8	400
+314	2	401
+315	9	403
+316	2	404
+317	2	405
+318	4	405
+319	8	406
+320	7	410
+321	10	418
+322	2	421
+323	6	421
+324	7	421
+325	6	425
+326	8	425
+327	9	425
+328	3	429
+329	4	429
+330	6	433
+331	4	434
+332	8	436
+333	8	440
+334	10	441
+335	2	442
+336	3	442
+337	6	442
+338	6	443
+339	2	444
+340	3	444
+341	6	444
+342	7	444
+343	7	448
+344	8	448
+345	8	449
+346	2	458
+347	2	460
+348	7	463
+349	2	466
+350	3	466
+351	7	466
+352	2	467
+353	3	467
+354	6	467
+355	7	468
+356	6	469
+357	6	470
+358	6	472
+359	2	473
+360	8	473
+361	4	474
+362	6	474
+363	2	475
+364	8	475
+365	10	477
+366	4	478
+367	6	478
+368	4	479
+369	8	479
+370	4	481
+371	10	485
+372	4	497
+373	10	497
+374	5	500
+375	6	503
+376	1	504
+377	9	504
+378	10	504
+379	3	508
+380	4	509
+381	6	513
+382	2	521
+383	10	528
+384	6	531
+385	2	533
+386	8	533
+387	2	534
+388	3	534
+389	8	534
+390	1	537
+391	4	539
+392	8	539
+393	4	540
+394	6	540
+395	10	540
+396	4	541
+397	5	541
+398	5	542
+399	6	542
+400	8	547
+401	9	549
+402	8	556
+403	9	556
+404	2	557
+405	6	557
+406	5	564
+407	2	566
+408	8	566
+409	8	580
+410	10	583
+411	7	589
+412	2	590
+413	8	590
+414	9	594
+415	4	596
+416	8	596
+417	9	601
+\.
+
+
+--
 -- Name: donordata_aliasmap_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1858,6 +2336,22 @@ ALTER TABLE ONLY donordata_donor
 
 ALTER TABLE ONLY donordata_donor
     ADD CONSTRAINT donordata_donor_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: donordata_patronagecategory__patronagecategory_id_89295375_uniq; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY donordata_patronagecategory_donors
+    ADD CONSTRAINT donordata_patronagecategory__patronagecategory_id_89295375_uniq UNIQUE (patronagecategory_id, donor_id);
+
+
+--
+-- Name: donordata_patronagecategory_donors_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY donordata_patronagecategory_donors
+    ADD CONSTRAINT donordata_patronagecategory_donors_pkey PRIMARY KEY (id);
 
 
 --
@@ -1883,11 +2377,41 @@ CREATE INDEX donordata_donor_donor_ident_4b419441_like ON donordata_donor USING 
 
 
 --
+-- Name: donordata_patronagecategory_donors_029df19e; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX donordata_patronagecategory_donors_029df19e ON donordata_patronagecategory_donors USING btree (donor_id);
+
+
+--
+-- Name: donordata_patronagecategory_donors_9ce2ed5c; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX donordata_patronagecategory_donors_9ce2ed5c ON donordata_patronagecategory_donors USING btree (patronagecategory_id);
+
+
+--
+-- Name: d5d22555a2cddbd1af24084d843bee9f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY donordata_patronagecategory_donors
+    ADD CONSTRAINT d5d22555a2cddbd1af24084d843bee9f FOREIGN KEY (patronagecategory_id) REFERENCES donordata_patronagecategory(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
 -- Name: donordata_aliasmap_parent_id_df20e611_fk_donordata_donor_id; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY donordata_aliasmap
     ADD CONSTRAINT donordata_aliasmap_parent_id_df20e611_fk_donordata_donor_id FOREIGN KEY (parent_id) REFERENCES donordata_donor(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: donordata_patronagecate_donor_id_91fcd2a0_fk_donordata_donor_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY donordata_patronagecategory_donors
+    ADD CONSTRAINT donordata_patronagecate_donor_id_91fcd2a0_fk_donordata_donor_id FOREIGN KEY (donor_id) REFERENCES donordata_donor(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
