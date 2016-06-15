@@ -4,7 +4,7 @@
 
 
 ##--These load the dump, load the utility functions to get aliases and canonical name, and load the endpoints
-sudo -u postgres psql hackoregon < donordata_dump.sql
+#sudo -u postgres psql hackoregon < donordata_dump.sql
 sudo -u postgres psql hackoregon < fetch_patronage_cateogories.sql
 sudo -u postgres psql hackoregon < getaliases.sql
 sudo -u postgres psql hackoregon < get_transactions_by_alias.sql
