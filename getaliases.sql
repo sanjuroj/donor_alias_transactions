@@ -10,7 +10,10 @@ DECLARE
     --name text := 'Sylvi C. Tuttle';
     --name text := 'Norman Brenden';
 
-BEGIN  
+BEGIN
+
+    alias_names := alias_names || name;
+      
     SELECT * INTO donor FROM donordata_donor WHERE full_name = name;
     
     IF FOUND THEN
