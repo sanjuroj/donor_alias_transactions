@@ -36,7 +36,11 @@ BEGIN
         WHERE id = donorid
    ) qres
   INTO result;
-
+  
+  IF result IS NULL THEN
+    result := to_json(alias_name::text);
+  END IF;
+  
   return result;
 END;
 $$ LANGUAGE plpgsql;
